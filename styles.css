@@ -211,11 +211,31 @@ h1 em { color: var(--accent); font-weight: 500; }
 .modal-close { position: absolute; z-index: 5; top: 11px; right: 11px; display: grid; place-items: center; width: 34px; height: 34px; padding: 0 0 3px; border: 1px solid var(--line); border-radius: 50%; background: color-mix(in srgb, var(--modal-bg) 85%, transparent); color: var(--ink); font-size: 26px; line-height: 1; cursor: pointer; transition: background .2s ease, color .2s ease, transform .2s ease; }
 .modal-close:hover { background: var(--accent); color: white; transform: rotate(90deg); }
 .modal-photo-panel { min-width: 0; display: flex; flex-direction: column; justify-content: center; }
-.photo-frame { position: relative; min-height: 280px; height: min(55vh, 440px); overflow: hidden; border: 7px solid color-mix(in srgb, var(--paper) 78%, white); border-radius: 9px; background: var(--paper-2); box-shadow: 0 5px 19px var(--shadow); }
+.photo-frame {
+  position: relative;
+  min-height: 280px;
+  height: auto;
+  overflow: hidden;
+  border: 7px solid color-mix(in srgb, var(--paper) 78%, white);
+  border-radius: 9px;
+  background: var(--paper-2);
+  box-shadow: 0 5px 19px var(--shadow);
+}
+.photo-frame[data-state="loading"] { height: min(55vh, 440px); }
+.photo-frame[data-state="loaded"] { min-height: 0; }
 .photo-skeleton { position: absolute; inset: 0; background: linear-gradient(105deg, var(--paper-2) 25%, color-mix(in srgb, var(--paper-2) 45%, white) 45%, var(--paper-2) 65%); background-size: 220% 100%; animation: shimmer 1.3s linear infinite; }
 .photo-frame[data-state="loaded"] .photo-skeleton, .photo-frame[data-state="fallback"] .photo-skeleton { display: none; }
 @keyframes shimmer { to { background-position-x: -220%; } }
-#modalImage { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .24s ease; }
+#modalImage {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(55vh, 440px);
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity .24s ease;
+}
 #modalImage[hidden] { display: none; }
 .photo-frame[data-state="loaded"] #modalImage { opacity: 1; }
 .photo-placeholder { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; padding: 18px; background: radial-gradient(ellipse at 50% 25%, var(--accent-soft), transparent 70%), repeating-linear-gradient(135deg, transparent 0 18px, color-mix(in srgb, var(--line) 24%, transparent) 19px 20px); text-align: center; }
@@ -282,7 +302,9 @@ h1 em { color: var(--accent); font-weight: 500; }
   .modal { padding: 10px; }
   .modal-panel { grid-template-columns: minmax(0, 1fr); gap: 13px; width: min(480px, 94vw); max-height: 88svh; padding: 15px; border-radius: 14px; }
   .modal-close { top: 8px; right: 8px; width: 30px; height: 30px; }
-  .photo-frame { min-height: 100px; height: min(27svh, 210px); border-width: 5px; }
+  .photo-frame { min-height: 0; height: auto; border-width: 5px; }
+  .photo-frame[data-state="loading"] { height: min(27svh, 210px); }
+  #modalImage { max-height: 42svh; }
   .photo-placeholder { gap: 4px; }
   .placeholder-icon { font-size: 29px; }
   .photo-placeholder strong { font-size: 14px; }
